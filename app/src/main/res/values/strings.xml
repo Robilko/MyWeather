@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name" translatable="false">MyWeather</string>
+    <string name="temperature_label">Temperature</string>
+    <string name="feels_like_label">Feels like</string>
+    <string name="city_coordinates" translatable="false">lt/ln: 55.755826, 37.617299900000035</string>
+    <string name="default_city">Moscow</string>
+</resources>
