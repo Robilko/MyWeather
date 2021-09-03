@@ -2,5 +2,6 @@
 <resources>
     <string name="temperature_label">Температура</string>
     <string name="feels_like_label">Ощущается как</string>
-    <string name="default_city">Moscow</string>
+    <string name="default_city">Москва</string>
+    <string name="server_error">Ошибка: Сервер не доступен</string>
 </resources>

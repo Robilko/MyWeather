@@ -1,5 +1,7 @@
 package com.robivan.myweather.view
 
+import android.app.Application
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.robivan.myweather.databinding.MainActivityBinding

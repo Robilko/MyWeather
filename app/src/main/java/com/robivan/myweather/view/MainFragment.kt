@@ -24,10 +24,7 @@ class MainFragment : Fragment() {
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,7 +55,8 @@ class MainFragment : Fragment() {
             }
             is AppState.Error -> {
                 loadingLayout.visibility = View.GONE
-                Snackbar.make(mainView, "Error", Snackbar.LENGTH_INDEFINITE)
+                val errorMessage = appState.error.message
+                Snackbar.make(mainView, errorMessage!! , Snackbar.LENGTH_INDEFINITE)
                     .setAction("Reload") {
                         viewModel.getWeatherFromLocalSource()
                     }.show()
