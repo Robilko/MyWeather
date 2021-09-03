@@ -9,8 +9,10 @@ import com.robivan.myweather.model.RepositoryImpl
 import java.lang.Thread.sleep
 import kotlin.random.Random
 
-class MainViewModel (private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData(),
-                     private val repositoryImpl: Repository = RepositoryImpl()) : ViewModel() {
+class MainViewModel(
+    private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData(),
+    private val repositoryImpl: Repository = RepositoryImpl()
+) : ViewModel() {
     fun getLiveData() = liveDataToObserver
 
     fun getWeatherFromLocalSource() = getDataFromLocalSource()
@@ -21,10 +23,18 @@ class MainViewModel (private val liveDataToObserver: MutableLiveData<AppState> =
         liveDataToObserver.value = AppState.Loading
         Thread {
             sleep(1000)
-            if(Random.nextBoolean()) {
+            if (Random.nextBoolean()) {
                 liveDataToObserver.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorage()))
             } else {
-                liveDataToObserver.postValue(AppState.Error(Exception(MyWeather.appContext!!.resources.getString(R.string.server_error))))
+                liveDataToObserver.postValue(
+                    AppState.Error(
+                        Exception(
+                            MyWeather.appContext!!.resources.getString(
+                                R.string.server_error
+                            )
+                        )
+                    )
+                )
             }
 
         }.start()

@@ -9,4 +9,8 @@ data class Weather(
     val feelsLike: Int = temperature - Random.nextInt(0, 5)
 )
 
-fun getDefaultCity() = City(MyWeather.appContext!!.resources.getString(R.string.default_city), 55.755826, 37.617299900000035)
+fun getDefaultCity() = City(
+    MyWeather.appContext!!.resources.getString(R.string.default_city),
+    55.755826,
+    37.617299900000035
+)
