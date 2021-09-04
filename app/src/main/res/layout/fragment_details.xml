@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainFragment">
+    android:background="@color/fragment_background"
+    tools:context=".view.details.DetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_view"
