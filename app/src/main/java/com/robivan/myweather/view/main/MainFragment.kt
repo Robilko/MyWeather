@@ -18,7 +18,6 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var viewModel: MainViewModel
     private val adapter = MainFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
@@ -27,7 +26,7 @@ class MainFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA, weather)
                 manager.beginTransaction()
-                    .add(R.id.container, DetailsFragment.newInstance(bundle))
+                    .replace(R.id.container, DetailsFragment.newInstance(bundle))
                     .addToBackStack("")
                     .commitAllowingStateLoss()
             }

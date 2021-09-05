@@ -34,6 +34,7 @@ class DetailsFragment : Fragment() {
             )
             binding.temperatureValue.text = weather.temperature.toString()
             binding.feelsLikeValue.text = weather.feelsLike.toString()
+            binding.sky.setImageResource(weather.sky)
         }
     }
 
