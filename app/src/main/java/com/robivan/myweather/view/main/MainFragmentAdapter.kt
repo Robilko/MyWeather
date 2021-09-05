@@ -3,6 +3,7 @@ package com.robivan.myweather.view.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.robivan.myweather.R
@@ -42,6 +43,12 @@ class MainFragmentAdapter(
         fun bind(weather: Weather) {
             itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
                 weather.city.city
+            var temperature = "${(weather.temperature)}°"
+            if (weather.temperature > 0) temperature = "+$temperature"
+            itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTemperatureTextView).text =
+                temperature
+            itemView.findViewById<ImageView>(R.id.mainFragmentRecyclerItemImageView)
+                .setImageResource(weather.precipitation)
             itemView.setOnClickListener {
                 onItemViewClickListener?.onItemViewClick(weather)
             }

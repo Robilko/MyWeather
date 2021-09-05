@@ -32,9 +32,13 @@ class DetailsFragment : Fragment() {
                 city.lat.toString(),
                 city.lon.toString()
             )
-            binding.temperatureValue.text = weather.temperature.toString()
-            binding.feelsLikeValue.text = weather.feelsLike.toString()
-            binding.sky.setImageResource(weather.sky)
+            var temperature = "${weather.temperature}°"
+            if (weather.temperature > 0) temperature = "+$temperature"
+            var feelsLike = "${weather.feelsLike}°"
+            if (weather.feelsLike > 0) feelsLike = "+$feelsLike"
+            binding.temperatureValue.text = temperature
+            binding.feelsLikeValue.text = feelsLike
+            binding.sky.setImageResource(weather.precipitation)
         }
     }
 
