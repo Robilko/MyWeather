@@ -14,8 +14,7 @@ class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -23,22 +22,20 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val weather = arguments?.getParcelable<Weather>(BUNDLE_EXTRA)
-        if (weather != null) {
-            val city = weather.city
-            binding.cityName.text = city.city
-            binding.cityCoordinates.text = String.format(
-                getString(R.string.city_coordinates),
-                city.lat.toString(),
-                city.lon.toString()
-            )
-            var temperature = "${weather.temperature}°"
-            if (weather.temperature > 0) temperature = "+$temperature"
-            var feelsLike = "${weather.feelsLike}°"
-            if (weather.feelsLike > 0) feelsLike = "+$feelsLike"
-            binding.temperatureValue.text = temperature
-            binding.feelsLikeValue.text = feelsLike
-            binding.sky.setImageResource(weather.precipitation)
+        arguments?.getParcelable<Weather>(BUNDLE_EXTRA)?.let { weather ->
+            weather.city.also { city ->
+                binding.cityName.text = city.city
+                binding.cityCoordinates.text = String.format(
+                    getString(R.string.city_coordinates),
+                    city.lat.toString(),
+                    city.lon.toString()
+                )
+                with(weather) {
+                    binding.temperatureValue.text = this.temperature.let { if (it > 0) "+$it°" else "$it°" }
+                    binding.feelsLikeValue.text = this.feelsLike.let { if (it > 0) "+$it°" else "$it°" }
+                    binding.sky.setImageResource(this.precipitation)
+                }
+            }
         }
     }
 

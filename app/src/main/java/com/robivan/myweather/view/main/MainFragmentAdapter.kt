@@ -20,39 +20,28 @@ class MainFragmentAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        return MainViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder =
+        MainViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_main_recycler_item, parent, false) as View
         )
-    }
 
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind(weatherData[position])
-    }
+    override fun onBindViewHolder(holder: MainViewHolder, position: Int) = holder.bind(weatherData[position])
 
-    override fun getItemCount(): Int {
-        return weatherData.size
-    }
+    override fun getItemCount(): Int = weatherData.size
 
-    fun removeListener() {
-        onItemViewClickListener = null
-    }
+    fun removeListener() { onItemViewClickListener = null }
 
     inner class MainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(weather: Weather) {
-            itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
-                weather.city.city
-            var temperature = "${(weather.temperature)}°"
-            if (weather.temperature > 0) temperature = "+$temperature"
-            itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTemperatureTextView).text =
-                temperature
-            itemView.findViewById<ImageView>(R.id.mainFragmentRecyclerItemImageView)
-                .setImageResource(weather.precipitation)
-            itemView.setOnClickListener {
-                onItemViewClickListener?.onItemViewClick(weather)
+            itemView.apply {
+                with(weather) {
+                    findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text = city.city
+                    findViewById<TextView>(R.id.mainFragmentRecyclerItemTemperatureTextView).text = temperature.let { if (it > 0) "+$it°" else "$it°" }
+                    findViewById<ImageView>(R.id.mainFragmentRecyclerItemImageView).setImageResource(precipitation)
+                    setOnClickListener { onItemViewClickListener?.onItemViewClick(this) }
+                }
             }
         }
-
     }
 }
