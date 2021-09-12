@@ -32,7 +32,7 @@
         android:layout_height="match_parent"
         android:background="@color/fragment_background"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="invisible">
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"

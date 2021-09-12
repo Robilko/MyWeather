@@ -22,26 +22,13 @@ class MainViewModel(
     private fun getDataFromLocalSource(isRussian: Boolean) {
         liveDataToObserver.value = AppState.Loading
         Thread {
-            sleep(500)
-//            if (Random.nextBoolean()) {
+            sleep(200)
             liveDataToObserver.postValue(
                 AppState.Success(
                     if (isRussian) repositoryImpl.getWeatherFromLocalStorageRus()
                     else repositoryImpl.getWeatherFromLocalStorageWorld()
                 )
             )
-//            } else {
-//                liveDataToObserver.postValue(
-//                    AppState.Error(
-//                        Exception(
-//                            MyWeather.appContext!!.resources.getString(
-//                                R.string.server_error
-//                            )
-//                        )
-//                    )
-//                )
-//            }
-
         }.start()
     }
 }
