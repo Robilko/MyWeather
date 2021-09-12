@@ -2,6 +2,6 @@ package com.robivan.myweather.model
 
 interface Repository {
     fun getWeatherFromServer(): Weather
-    fun getWeatherFromLocalStorageRus(): List<Weather>
-    fun getWeatherFromLocalStorageWorld(): List<Weather>
+    fun getWeatherFromLocalStorageRus(): List<City>
+    fun getWeatherFromLocalStorageWorld(): List<City>
 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.robivan.myweather.model.Repository
 import com.robivan.myweather.model.RepositoryImpl
-import java.lang.Thread.sleep
 
 class MainViewModel(
     private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData(),
@@ -22,7 +21,6 @@ class MainViewModel(
     private fun getDataFromLocalSource(isRussian: Boolean) {
         liveDataToObserver.value = AppState.Loading
         Thread {
-            sleep(200)
             liveDataToObserver.postValue(
                 AppState.Success(
                     if (isRussian) repositoryImpl.getWeatherFromLocalStorageRus()
