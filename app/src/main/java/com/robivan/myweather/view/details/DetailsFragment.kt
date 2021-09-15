@@ -1,5 +1,9 @@
 package com.robivan.myweather.view.details
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.robivan.myweather.R
 import com.robivan.myweather.databinding.FragmentDetailsBinding
 import com.robivan.myweather.model.*
@@ -16,6 +21,34 @@ class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
     private lateinit var cityBundle: City
+
+    private val localBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when(intent?.getStringExtra(RESULT_WEATHER_EXTRA)) {
+                SUCCESS_RESULT -> {
+                    intent.getParcelableExtra<FactDTO>(FACT_WEATHER_EXTRA)?.let {
+                        displayWeather(it)
+                    }
+                }
+                EMPTY_DATA_RESULT -> {
+                    //TODO
+                }
+            }
+        }
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        LocalBroadcastManager.getInstance(requireContext())
+            .registerReceiver(localBroadcastReceiver, IntentFilter(DETAILS_INTENT_FILTER))
+    }
+
+    override fun onDestroy() {
+        LocalBroadcastManager.getInstance(requireContext())
+            .unregisterReceiver(localBroadcastReceiver)
+        super.onDestroy()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -28,30 +61,21 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cityBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: getDefaultCity()
-        binding.mainView.visibility = View.GONE
-        binding.loadingLayout.visibility = View.VISIBLE
-        val loader = WeatherLoader(onLoadListener, cityBundle.lat, cityBundle.lon)
-        loader.loadWeather()
+
+        //Отправить координаты
+        getWeather(cityBundle.lat, cityBundle.lon)
     }
 
-    private val onLoadListener: WeatherLoader.WeatherLoaderListener =
-        object : WeatherLoader.WeatherLoaderListener {
-            override fun onLoaded(weatherDTO: WeatherDTO) {
-                displayWeather(weatherDTO)
-            }
+    private fun getWeather(lat: Double, lon: Double) {
+        binding.mainView.visibility = View.GONE
+        binding.loadingLayout.visibility = View.VISIBLE
+        requireActivity().startService(Intent(requireContext(), MainService::class.java).apply {
+            putExtra(LATITUDE_EXTRA, lat)
+            putExtra(LONGITUDE_EXTRA, lon)
+        })
+    }
 
-            override fun onFailed(throwable: Throwable) {
-                //Обработка ошибки
-                requireActivity().runOnUiThread {
-                    Toast.makeText(requireContext(), throwable.localizedMessage, Toast.LENGTH_LONG).show()
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .remove(this@DetailsFragment)
-                        .commitNow()
-                }
-            }
-        }
-
-    private fun displayWeather(weatherDTO: WeatherDTO) {
+    private fun displayWeather(fact: FactDTO) {
         with(binding) {
             mainView.visibility = View.VISIBLE
             loadingLayout.visibility = View.GONE
@@ -62,9 +86,9 @@ class DetailsFragment : Fragment() {
                 city.lat.toString(),
                 city.lon.toString()
             )
-            weatherCondition.text = weatherDTO.fact?.getConditionText()
-            temperatureValue.text = weatherDTO.fact?.temp.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
-            feelsLikeValue.text = weatherDTO.fact?.feels_like.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
+            weatherCondition.text = fact.getConditionText()
+            temperatureValue.text = fact.temp.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
+            feelsLikeValue.text = fact.feels_like.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
             icon.setImageResource(R.drawable.sunny) //заглушка по картинке
         }
     }
