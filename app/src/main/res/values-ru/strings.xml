@@ -5,4 +5,23 @@
     <string name="default_city">Москва</string>
     <string name="server_error">Ошибка: Сервер не доступен</string>
     <string name="reload">Перезагрузка</string>
+    <string name="clear">Ясно</string>
+    <string name="partly_cloudy">Малооблачно</string>
+    <string name="cloudy">Облачно с прояснениями</string>
+    <string name="overcast">Пасмурно</string>
+    <string name="drizzle">Морось</string>
+    <string name="light_rain">Небольшой дождь</string>
+    <string name="rain">Дождь</string>
+    <string name="moderate_rain">Умеренно сильный дождь</string>
+    <string name="heavy_rain">Сильный дождь</string>
+    <string name="continuous_heavy_rain">Длительный сильный дождь</string>
+    <string name="showers">Ливень</string>
+    <string name="wet_snow">Дождь со снегом</string>
+    <string name="light_snow">Небольшой снег</string>
+    <string name="snow">Снег</string>
+    <string name="snow_showers">Снегопад</string>
+    <string name="hail">Град</string>
+    <string name="thunderstorm">Гроза</string>
+    <string name="thunderstorm_with_rain">Дождь с грозой</string>
+    <string name="thunderstorm_with_hail">Гроза с градом</string>
 </resources>

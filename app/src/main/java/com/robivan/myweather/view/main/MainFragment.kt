@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.robivan.myweather.R
 import com.robivan.myweather.databinding.FragmentMainBinding
-import com.robivan.myweather.model.Weather
+import com.robivan.myweather.model.City
 import com.robivan.myweather.view.details.DetailsFragment
 import com.robivan.myweather.viewmodel.AppState
 import com.robivan.myweather.viewmodel.MainViewModel
@@ -24,11 +24,11 @@ class MainFragment : Fragment() {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
     private val adapter = MainFragmentAdapter(object : OnItemViewClickListener {
-        override fun onItemViewClick(weather: Weather) {
+        override fun onItemViewClick(city: City) {
             activity?.supportFragmentManager?.apply {
                 beginTransaction()
                     .replace(R.id.container, DetailsFragment.newInstance(Bundle().apply {
-                        putParcelable(DetailsFragment.BUNDLE_EXTRA, weather)
+                        putParcelable(DetailsFragment.BUNDLE_EXTRA, city)
             })).addToBackStack("").commitAllowingStateLoss()
             }
         }
@@ -70,7 +70,7 @@ class MainFragment : Fragment() {
         when (appState) {
             is AppState.Success -> {
                 mainFragmentLoadingLayout.visibility = View.GONE
-                adapter.setWeather(appState.weatherData)
+                adapter.setWeather(appState.cityData)
             }
             is AppState.Loading -> {
                 mainFragmentLoadingLayout.visibility = View.VISIBLE
@@ -95,7 +95,7 @@ class MainFragment : Fragment() {
         Snackbar.make(this, text, length).setAction(actionText, action).show()
     }
 
-    interface OnItemViewClickListener { fun onItemViewClick(weather: Weather) }
+    interface OnItemViewClickListener { fun onItemViewClick(city: City) }
 
     companion object { fun newInstance() = MainFragment() }
 }
