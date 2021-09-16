@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temperature_label">Температура</string>
+    <string name="feels_like_label">Ощущается как</string>
+    <string name="default_city">Москва</string>
+    <string name="server_error">Ошибка: Сервер не доступен</string>
+</resources>
