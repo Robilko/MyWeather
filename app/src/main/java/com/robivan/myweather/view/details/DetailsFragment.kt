@@ -1,11 +1,15 @@
 package com.robivan.myweather.view.details
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.api.load
+import com.bumptech.glide.Glide
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.robivan.myweather.R
 import com.robivan.myweather.databinding.FragmentDetailsBinding
 import com.robivan.myweather.model.Weather
@@ -77,9 +81,8 @@ class DetailsFragment : Fragment() {
             feelsLikeValue.text =
                 weather.feelsLike.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
             weatherCondition.text = weather.condition
-            icon.setImageResource(R.drawable.sunny) //заглушка по картинке
+            weather.icon?.let { GlideToVectorYou.justLoadImage(activity, Uri.parse("https://yastatic.net/weather/i/icons/blueye/color/svg/${it}.svg"), icon) }
         }
-
     }
 
     override fun onDestroyView() {

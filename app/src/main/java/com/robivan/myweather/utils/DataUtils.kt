@@ -13,7 +13,7 @@ fun convertDtoToModel(weatherDTO: WeatherDTO): List<Weather> {
             fact.temp!!,
             fact.feels_like!!,
             fact.getConditionText(),
-            fact.icon!!
+            fact.icon
         )
     )
 }

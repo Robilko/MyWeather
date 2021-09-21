@@ -11,7 +11,7 @@ data class Weather(
     val temperature: Int = Random.nextInt(-35, 35),
     val feelsLike: Int = temperature - Random.nextInt(0, 5),
     val condition: String = "sunny",
-    internal val icon: String? = null
+    val icon: String? = "bkn_n"
 ) : Parcelable
 
 fun getDefaultCity() = City(
