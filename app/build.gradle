@@ -47,8 +47,8 @@ android {
 }
 
 dependencies {
-    //GSON
-    implementation 'com.google.code.gson:gson:2.8.6'
+//    //GSON
+//    implementation 'com.google.code.gson:gson:2.8.6'
 
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -63,8 +63,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
 
-    //OkHttp
-    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+//    //OkHttp
+//    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
 
     //Retrofit
      implementation 'com.squareup.retrofit2:retrofit:2.9.0'

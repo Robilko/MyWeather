@@ -11,7 +11,7 @@
     <dimen name="recycler_item_line_height">1dp</dimen>
     <dimen name="recycler_item_line_margin_end">20dp</dimen>
     <dimen name="city_text_size">35sp</dimen>
-    <dimen name="precipitation_image_size">200dp</dimen>
+    <dimen name="precipitation_image_size">150dp</dimen>
     <dimen name="recycler_item_precipitation_image_size">50dp</dimen>
     <dimen name="recycler_item_precipitation_image_margin">4dp</dimen>
 </resources>

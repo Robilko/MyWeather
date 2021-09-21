@@ -1,7 +1,8 @@
 package com.robivan.myweather.repository
 
-import okhttp3.Callback
+import com.robivan.myweather.model.WeatherDTO
+import retrofit2.Callback
 
 interface DetailsRepository {
-    fun getWeatherDetailsFromServer(requestLink: String, callback: Callback)
+    fun getWeatherDetailsFromServer(lat: Double, lon: Double, callback: Callback<WeatherDTO>)
 }

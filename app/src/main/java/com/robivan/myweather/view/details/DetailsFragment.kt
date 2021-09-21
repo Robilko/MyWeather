@@ -13,8 +13,6 @@ import com.robivan.myweather.utils.showSnackBar
 import com.robivan.myweather.viewmodel.AppState
 import com.robivan.myweather.viewmodel.DetailsViewModel
 
-private const val MAIN_LINK = "https://api.weather.yandex.ru/v2/informers?"
-
 class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -34,8 +32,8 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         weatherBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: Weather()
-        viewModel.getLiveData().observe(viewLifecycleOwner, { displayWeather(it) })
-        viewModel.getWeatherFromRemoteSource(MAIN_LINK + "lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}")
+        viewModel.detailsLiveData.observe(viewLifecycleOwner, { displayWeather(it) })
+        viewModel.getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
     }
 
     private fun displayWeather(appState: AppState) {
@@ -57,10 +55,7 @@ class DetailsFragment : Fragment() {
                         getString(R.string.error),
                         getString(R.string.reload),
                         {
-                            viewModel.getWeatherFromRemoteSource(
-                                MAIN_LINK +
-                                        "lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}"
-                            )
+                            viewModel.getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
                         }
                     )
                 }
