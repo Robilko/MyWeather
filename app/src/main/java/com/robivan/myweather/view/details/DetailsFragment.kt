@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.api.load
-import com.bumptech.glide.Glide
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.robivan.myweather.R
 import com.robivan.myweather.databinding.FragmentDetailsBinding
@@ -81,6 +80,7 @@ class DetailsFragment : Fragment() {
             feelsLikeValue.text =
                 weather.feelsLike.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
             weatherCondition.text = weather.condition
+            headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
             weather.icon?.let { GlideToVectorYou.justLoadImage(activity, Uri.parse("https://yastatic.net/weather/i/icons/blueye/color/svg/${it}.svg"), icon) }
         }
     }

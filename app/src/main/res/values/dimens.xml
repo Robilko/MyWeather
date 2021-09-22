@@ -14,4 +14,5 @@
     <dimen name="precipitation_image_size">150dp</dimen>
     <dimen name="recycler_item_precipitation_image_size">50dp</dimen>
     <dimen name="recycler_item_precipitation_image_margin">4dp</dimen>
+    <dimen name="town_header_height">100dp</dimen>
 </resources>
