@@ -11,10 +11,12 @@ import coil.api.load
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.robivan.myweather.R
 import com.robivan.myweather.databinding.FragmentDetailsBinding
+import com.robivan.myweather.model.City
 import com.robivan.myweather.model.Weather
 import com.robivan.myweather.utils.showSnackBar
 import com.robivan.myweather.viewmodel.AppState
 import com.robivan.myweather.viewmodel.DetailsViewModel
+import kotlinx.android.synthetic.main.loading_layout.*
 
 class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
@@ -44,16 +46,16 @@ class DetailsFragment : Fragment() {
             when (appState) {
                 is AppState.Success -> {
                     mainView.visibility = View.VISIBLE
-                    loadingLayout.visibility = View.GONE
+                    binding.includedLoadingLayout.loadingLayout.visibility = View.GONE
                     setWeather(appState.weatherData[0])
                 }
                 is AppState.Loading -> {
                     mainView.visibility = View.GONE
-                    loadingLayout.visibility = View.VISIBLE
+                    binding.includedLoadingLayout.loadingLayout.visibility = View.VISIBLE
                 }
                 is AppState.Error -> {
                     mainView.visibility = View.VISIBLE
-                    loadingLayout.visibility = View.GONE
+                    binding.includedLoadingLayout.loadingLayout.visibility = View.GONE
                     mainView.showSnackBar(
                         getString(R.string.error),
                         getString(R.string.reload),
@@ -68,6 +70,7 @@ class DetailsFragment : Fragment() {
 
     private fun setWeather(weather: Weather) {
         val city = weatherBundle.city
+        saveCity(city, weather)
         with(binding) {
             cityName.text = city.cityName
             cityCoordinates.text = String.format(
@@ -85,10 +88,16 @@ class DetailsFragment : Fragment() {
         }
     }
 
+    private fun saveCity(city: City, weather: Weather) {
+        viewModel.saveCityToDB(Weather(city, weather.temperature, weather.feelsLike, weather.condition))
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
 
     companion object {
         const val BUNDLE_EXTRA = "weather"

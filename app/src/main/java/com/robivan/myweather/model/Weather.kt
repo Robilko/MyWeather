@@ -15,7 +15,7 @@ data class Weather(
 ) : Parcelable
 
 fun getDefaultCity() = City(
-    MyWeather.appContext!!.resources.getString(R.string.default_city),
+    App.appContext!!.resources.getString(R.string.default_city),
     55.755826,
     37.617299900000035
 )

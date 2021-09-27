@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fragment_background"
+    android:background="@color/loading_background"
     tools:context=".view.details.DetailsFragment">
 
 
@@ -132,22 +132,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <FrameLayout
-            android:id="@+id/loadingLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/fragment_background"
-            android:visibility="gone"
-            tools:layout_editor_absoluteX="-2dp"
-            tools:layout_editor_absoluteY="0dp"
-            tools:visibility="invisible">
-
-            <ProgressBar
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-        </FrameLayout>
+        <include
+            android:id="@+id/includedLoadingLayout"
+            layout="@layout/loading_layout"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
