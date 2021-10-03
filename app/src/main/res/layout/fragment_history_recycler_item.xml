@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/recyclerViewItem"
+        android:id="@+id/recycler_view_item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_5_dp"

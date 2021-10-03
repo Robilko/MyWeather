@@ -9,5 +9,7 @@ data class HistoryEntity(
    val id: Long,
    val city: String,
    val temperature: Int,
-   val condition: String
+   val condition: String,
+   val icon:String,
+   val timestamp: String
 )

@@ -16,7 +16,6 @@ import com.robivan.myweather.model.Weather
 import com.robivan.myweather.utils.showSnackBar
 import com.robivan.myweather.viewmodel.AppState
 import com.robivan.myweather.viewmodel.DetailsViewModel
-import kotlinx.android.synthetic.main.loading_layout.*
 
 class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
@@ -84,12 +83,12 @@ class DetailsFragment : Fragment() {
                 weather.feelsLike.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
             weatherCondition.text = weather.condition
             headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
-            weather.icon?.let { GlideToVectorYou.justLoadImage(activity, Uri.parse("https://yastatic.net/weather/i/icons/blueye/color/svg/${it}.svg"), icon) }
+            weather.icon.let { GlideToVectorYou.justLoadImage(activity, Uri.parse("https://yastatic.net/weather/i/icons/blueye/color/svg/${it}.svg"), icon) }
         }
     }
 
     private fun saveCity(city: City, weather: Weather) {
-        viewModel.saveCityToDB(Weather(city, weather.temperature, weather.feelsLike, weather.condition))
+        viewModel.saveCityToDB(Weather(city, weather.temperature, weather.feelsLike, weather.condition, weather.timestamp))
     }
 
     override fun onDestroyView() {

@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.robivan.myweather.R
 import com.robivan.myweather.model.Weather
 import kotlinx.android.synthetic.main.fragment_history_recycler_item.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolder>() {
 
@@ -20,7 +18,10 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolde
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAdapter.RecyclerItemViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): HistoryAdapter.RecyclerItemViewHolder {
         return RecyclerItemViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_history_recycler_item, parent, false) as View
@@ -38,13 +39,20 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolde
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(data: Weather) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
-                itemView.recyclerViewItem.text = String.format(
-                    "%s %s %s",
+                itemView.recycler_view_item_text.text = String.format(
+                    "%s \n%s %s \n%s",
                     data.city.cityName,
                     data.temperature.let { if (it > 0) "+$it°" else "$it°" },
-                    data.condition
+                    data.condition,
+                    data.timestamp
                 )
-                itemView.setOnClickListener { Toast.makeText( itemView.context, "on click: ${data.city.cityName}", Toast.LENGTH_SHORT ) .show() }
+                itemView.setOnClickListener {
+                    Toast.makeText(
+                        itemView.context,
+                        "on click: ${data.city.cityName}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
