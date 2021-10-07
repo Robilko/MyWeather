@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/loading_background"
+    android:background="@color/fragment_background"
     android:fitsSystemWindows="true">
 
     <androidx.recyclerview.widget.RecyclerView

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.robivan.myweather.R
 import com.robivan.myweather.databinding.MainActivityBinding
 import com.robivan.myweather.model.NetworkChangeReceiver
+import com.robivan.myweather.view.contentProvider.ContentProviderFragment
 import com.robivan.myweather.view.history.HistoryFragment
 import com.robivan.myweather.view.main.MainFragment
 
@@ -47,6 +48,15 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.apply {
                     beginTransaction()
                         .add(binding.container.id, HistoryFragment.newInstance())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            R.id.menu_content_provider -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .add(binding.container.id, ContentProviderFragment.newInstance())
                         .addToBackStack("")
                         .commitAllowingStateLoss()
                 }
