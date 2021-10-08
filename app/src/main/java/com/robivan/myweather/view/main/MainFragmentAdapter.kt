@@ -8,16 +8,16 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.robivan.myweather.R
-import com.robivan.myweather.model.City
+import com.robivan.myweather.model.Weather
 
 class MainFragmentAdapter(
     private var onItemViewClickListener:
     MainFragment.OnItemViewClickListener?
 ) : RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
-    private var cityData: List<City> = listOf()
+    private var weatherData: List<Weather> = listOf()
 
-    fun setWeather(data: List<City>) {
-        cityData = data
+    fun setWeather(data: List<Weather>) {
+        weatherData = data
         notifyDataSetChanged()
     }
 
@@ -29,9 +29,9 @@ class MainFragmentAdapter(
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) =
-        holder.bind(cityData[position])
+        holder.bind(weatherData[position])
 
-    override fun getItemCount(): Int = cityData.size
+    override fun getItemCount(): Int = weatherData.size
 
     fun removeListener() {
         onItemViewClickListener = null
@@ -39,10 +39,10 @@ class MainFragmentAdapter(
 
     inner class MainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         @RequiresApi(Build.VERSION_CODES.N)
-        fun bind(city: City) {
+        fun bind(weather: Weather) {
             itemView.apply {
-                with(city) {
-                    findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text = cityName
+                with(weather) {
+                    findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text = this.city.cityName
                     setOnClickListener { onItemViewClickListener?.onItemViewClick(this) }
                 }
             }

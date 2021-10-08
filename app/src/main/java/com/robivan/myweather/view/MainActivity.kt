@@ -4,10 +4,8 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.robivan.myweather.databinding.MainActivityBinding
 import com.robivan.myweather.model.NetworkChangeReceiver
-import com.robivan.myweather.view.details.DETAILS_INTENT_FILTER
 import com.robivan.myweather.view.main.MainFragment
 
 class MainActivity : AppCompatActivity() {

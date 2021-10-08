@@ -1,72 +1,28 @@
 package com.robivan.myweather.view.details
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.lifecycle.ViewModelProvider
+import coil.api.load
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.robivan.myweather.R
 import com.robivan.myweather.databinding.FragmentDetailsBinding
-import com.robivan.myweather.model.*
-
-const val DETAILS_INTENT_FILTER = "DETAILS INTENT FILTER"
-const val DETAILS_LOAD_RESULT_EXTRA = "LOAD RESULT"
-const val DETAILS_INTENT_EMPTY_EXTRA = "INTENT IS EMPTY"
-const val DETAILS_DATA_EMPTY_EXTRA = "DATA IS EMPTY"
-const val DETAILS_RESPONSE_EMPTY_EXTRA = "RESPONSE IS EMPTY"
-const val DETAILS_REQUEST_ERROR_EXTRA = "REQUEST ERROR"
-const val DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = "REQUEST ERROR MESSAGE"
-const val DETAILS_URL_MALFORMED_EXTRA = "URL MALFORMED"
-const val DETAILS_RESPONSE_SUCCESS_EXTRA = "RESPONSE SUCCESS"
-const val FACT_WEATHER_EXTRA = "FACT WEATHER"
-private const val PROCESS_ERROR = "Обработка ошибки"
+import com.robivan.myweather.model.Weather
+import com.robivan.myweather.utils.showSnackBar
+import com.robivan.myweather.viewmodel.AppState
+import com.robivan.myweather.viewmodel.DetailsViewModel
 
 class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var cityBundle: City
+    private lateinit var weatherBundle: Weather
 
-    private val loadResultReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            when (intent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
-                DETAILS_INTENT_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_DATA_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_RESPONSE_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_REQUEST_ERROR_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_REQUEST_ERROR_MESSAGE_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_URL_MALFORMED_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_RESPONSE_SUCCESS_EXTRA -> {
-                    intent.getParcelableExtra<FactDTO>(FACT_WEATHER_EXTRA)?.let {
-                        displayWeather(it)
-                    }
-                }
-                else -> TODO(PROCESS_ERROR)
-            }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        context?.let {
-            LocalBroadcastManager.getInstance(it)
-                .registerReceiver(loadResultReceiver, IntentFilter(DETAILS_INTENT_FILTER))
-        }
-    }
-
-    override fun onDestroy() {
-        context?.let {
-            LocalBroadcastManager.getInstance(it).unregisterReceiver(loadResultReceiver)
-        }
-        super.onDestroy()
+    private val viewModel: DetailsViewModel by lazy {
+        ViewModelProvider(this).get(DetailsViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -76,40 +32,56 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cityBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: getDefaultCity()
-        getWeather()
-
+        weatherBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: Weather()
+        viewModel.detailsLiveData.observe(viewLifecycleOwner, { displayWeather(it) })
+        viewModel.getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
     }
 
-    private fun getWeather() {
-        binding.mainView.visibility = View.GONE
-        binding.loadingLayout.visibility = View.VISIBLE
-        context?.let {
-            it.startService(Intent(it, DetailsService::class.java).apply {
-                putExtra(LATITUDE_EXTRA,cityBundle.lat)
-                putExtra(LONGITUDE_EXTRA, cityBundle.lon)
-            })
+    private fun displayWeather(appState: AppState) {
+        with(binding) {
+            when (appState) {
+                is AppState.Success -> {
+                    mainView.visibility = View.VISIBLE
+                    loadingLayout.visibility = View.GONE
+                    setWeather(appState.weatherData[0])
+                }
+                is AppState.Loading -> {
+                    mainView.visibility = View.GONE
+                    loadingLayout.visibility = View.VISIBLE
+                }
+                is AppState.Error -> {
+                    mainView.visibility = View.VISIBLE
+                    loadingLayout.visibility = View.GONE
+                    mainView.showSnackBar(
+                        getString(R.string.error),
+                        getString(R.string.reload),
+                        {
+                            viewModel.getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
+                        }
+                    )
+                }
+            }
         }
     }
 
-    private fun displayWeather(fact: FactDTO) {
+    private fun setWeather(weather: Weather) {
+        val city = weatherBundle.city
         with(binding) {
-            mainView.visibility = View.VISIBLE
-            loadingLayout.visibility = View.GONE
-            val city = cityBundle
             cityName.text = city.cityName
             cityCoordinates.text = String.format(
                 getString(R.string.city_coordinates),
                 city.lat.toString(),
                 city.lon.toString()
             )
-            weatherCondition.text = fact.getConditionText()
-            temperatureValue.text = fact.temp.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
-            feelsLikeValue.text = fact.feels_like.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
-            icon.setImageResource(R.drawable.sunny) //заглушка по картинке
+            temperatureValue.text =
+                weather.temperature.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
+            feelsLikeValue.text =
+                weather.feelsLike.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
+            weatherCondition.text = weather.condition
+            headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+            weather.icon?.let { GlideToVectorYou.justLoadImage(activity, Uri.parse("https://yastatic.net/weather/i/icons/blueye/color/svg/${it}.svg"), icon) }
         }
     }
 
@@ -119,7 +91,7 @@ class DetailsFragment : Fragment() {
     }
 
     companion object {
-        const val BUNDLE_EXTRA = "city weather"
+        const val BUNDLE_EXTRA = "weather"
         fun newInstance(bundle: Bundle): DetailsFragment {
             val fragment = DetailsFragment()
             fragment.arguments = bundle
