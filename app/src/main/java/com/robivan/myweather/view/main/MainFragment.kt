@@ -1,5 +1,6 @@
 package com.robivan.myweather.view.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +16,13 @@ import com.robivan.myweather.viewmodel.AppState
 import com.robivan.myweather.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 
+private const val IS_WORLD_KEY = "LIST_OF_TOWNS_KEY"
+
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private var isDataSetRus: Boolean = true
+    private var isDataSetWorld: Boolean = false
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
@@ -27,18 +30,14 @@ class MainFragment : Fragment() {
         override fun onItemViewClick(weather: Weather) {
             activity?.supportFragmentManager?.apply {
                 beginTransaction()
-                    .replace(R.id.container, DetailsFragment.newInstance(Bundle().apply {
+                    .add(R.id.container, DetailsFragment.newInstance(Bundle().apply {
                         putParcelable(DetailsFragment.BUNDLE_EXTRA, weather)
                     })).addToBackStack("").commitAllowingStateLoss()
             }
         }
     })
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -51,35 +50,55 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainFragmentRecyclerView.adapter = adapter
-        mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
-        with(viewModel) {
-            getLiveData().observe(viewLifecycleOwner, { renderData(it) })
-            getWeatherFromLocalSourceRus()
+        main_fragment_recycler_view.adapter = adapter
+        main_fragment_FAB.setOnClickListener { changeWeatherDataSet() }
+        viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
+        showListOfTowns()
+    }
+
+    private fun showListOfTowns() {
+        activity?.let {
+            if (it.getPreferences(Context.MODE_PRIVATE).getBoolean(IS_WORLD_KEY, false)) {
+                changeWeatherDataSet()
+            } else {
+                viewModel.getWeatherFromLocalSourceRus()
+            }
         }
     }
 
     private fun changeWeatherDataSet() =
-        if (isDataSetRus) {
-            viewModel.getWeatherFromLocalSourceWorld()
-            mainFragmentFAB.setImageResource(R.drawable.ic_earth)
-        } else {
+        if (isDataSetWorld) {
             viewModel.getWeatherFromLocalSourceRus()
-            mainFragmentFAB.setImageResource(R.drawable.ic_russia)
-        }.also { isDataSetRus = !isDataSetRus }
+            main_fragment_FAB.setImageResource(R.drawable.ic_russia)
+        } else {
+            viewModel.getWeatherFromLocalSourceWorld()
+            main_fragment_FAB.setImageResource(R.drawable.ic_earth)
+        }.also {
+            isDataSetWorld = !isDataSetWorld
+            saveListOfTowns(isDataSetWorld)
+        }
+
+    private fun saveListOfTowns(isDataSetWorld: Boolean) {
+        activity?.let {
+            with(it.getPreferences(Context.MODE_PRIVATE).edit()) {
+                putBoolean(IS_WORLD_KEY, isDataSetWorld)
+                apply()
+            }
+        }
+    }
 
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                mainFragmentLoadingLayout.visibility = View.GONE
+                binding.includedLoadingLayout.loadingLayout.visibility = View.GONE
                 adapter.setWeather(appState.weatherData)
             }
             is AppState.Loading -> {
-                mainFragmentLoadingLayout.visibility = View.VISIBLE
+                binding.includedLoadingLayout.loadingLayout.visibility = View.VISIBLE
             }
             is AppState.Error -> {
-                mainFragmentLoadingLayout.visibility = View.GONE
-                mainFragmentRootView.showSnackBar(
+                binding.includedLoadingLayout.loadingLayout.visibility = View.GONE
+                main_fragment_root_view.showSnackBar(
                     appState.error.message!!,
                     getString(R.string.reload),
                     { viewModel.getWeatherFromLocalSourceRus() }

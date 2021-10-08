@@ -14,83 +14,83 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/headerIcon"
+            android:id="@+id/header_icon"
             android:layout_width="match_parent"
             android:layout_height="@dimen/town_header_height"
             android:scaleType="fitXY"
-            app:layout_constraintBottom_toTopOf="@+id/cityName"
+            app:layout_constraintBottom_toTopOf="@+id/city_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/cityName"
+            android:id="@+id/city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/city_text_size"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/cityCoordinates"
+            app:layout_constraintBottom_toTopOf="@+id/city_coordinates"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headerIcon"
+            app:layout_constraintTop_toBottomOf="@+id/header_icon"
             tools:text="Москва" />
 
         <TextView
-            android:id="@+id/cityCoordinates"
+            android:id="@+id/city_coordinates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/temperatureLabel"
+            app:layout_constraintBottom_toTopOf="@+id/temperature_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cityName"
+            app:layout_constraintTop_toBottomOf="@+id/city_name"
             tools:text="@string/city_coordinates" />
 
         <TextView
-            android:id="@+id/temperatureLabel"
+            android:id="@+id/temperature_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/temperature_label"
-            app:layout_constraintBottom_toTopOf="@+id/temperatureValue"
+            app:layout_constraintBottom_toTopOf="@+id/temperature_value"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cityCoordinates" />
+            app:layout_constraintTop_toBottomOf="@+id/city_coordinates" />
 
         <TextView
-            android:id="@+id/temperatureValue"
+            android:id="@+id/temperature_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/temperature_value_text_size"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/feelsLikeLabel"
+            app:layout_constraintBottom_toTopOf="@+id/feels_like_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/temperatureLabel"
+            app:layout_constraintTop_toBottomOf="@+id/temperature_label"
             tools:text="+15" />
 
         <TextView
-            android:id="@+id/feelsLikeLabel"
+            android:id="@+id/feels_like_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/feels_like_label"
-            app:layout_constraintBottom_toTopOf="@+id/feelsLikeValue"
+            app:layout_constraintBottom_toTopOf="@+id/feels_like_value"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/temperatureValue" />
+            app:layout_constraintTop_toBottomOf="@+id/temperature_value" />
 
         <TextView
-            android:id="@+id/feelsLikeValue"
+            android:id="@+id/feels_like_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/feels_like_text_size"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/weatherCondition"
+            app:layout_constraintBottom_toTopOf="@+id/weather_condition"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/feelsLikeLabel"
+            app:layout_constraintTop_toBottomOf="@+id/feels_like_label"
             tools:text="-23" />
 
         <TextView
-            android:id="@+id/weatherCondition"
+            android:id="@+id/weather_condition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/feels_like_text_size"
@@ -98,7 +98,7 @@
             app:layout_constraintBottom_toTopOf="@+id/icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/feelsLikeValue"
+            app:layout_constraintTop_toBottomOf="@+id/feels_like_value"
             tools:text="Облачно" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -109,23 +109,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weatherCondition"
+            app:layout_constraintTop_toBottomOf="@+id/weather_condition"
             tools:src="@drawable/sunny" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <FrameLayout
-        android:id="@+id/loadingLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/fragment_background"
-        android:visibility="gone"
-        tools:visibility="invisible">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
+    <include
+        android:id="@+id/included_loading_layout"
+        layout="@layout/loading_layout" />
 
 </FrameLayout>

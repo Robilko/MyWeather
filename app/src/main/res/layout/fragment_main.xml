@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainFragmentRootView"
+    android:id="@+id/main_fragment_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainFragmentRecyclerView"
+        android:id="@+id/main_fragment_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -16,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/mainFragmentFAB"
+        android:id="@+id/main_fragment_FAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
@@ -26,18 +25,7 @@
         app:srcCompat="@drawable/ic_russia"
         app:tint="@null" />
 
-    <FrameLayout
-        android:id="@+id/mainFragmentLoadingLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/fragment_background"
-        android:visibility="gone"
-        tools:visibility="invisible">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
+    <include
+        android:id="@+id/included_loading_layout"
+        layout="@layout/loading_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

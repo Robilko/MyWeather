@@ -25,4 +25,6 @@
     <string name="thunderstorm_with_rain">Дождь с грозой</string>
     <string name="thunderstorm_with_hail">Гроза с градом</string>
     <string name="error">"Ошибка: "</string>
+    <string name="menu_title_history">История</string>
+    <string name="content_provider">Контакты</string>
 </resources>
