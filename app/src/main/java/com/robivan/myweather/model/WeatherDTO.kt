@@ -16,7 +16,7 @@ data class FactDTO(
     val icon: String?
 ) : Parcelable{
     fun getConditionText(): String {
-        val contextResources = MyWeather.appContext?.resources
+        val contextResources = App.appContext?.resources
         return condition?.let { contextResources?.getString(it.value) } ?: "-"
     }
 }

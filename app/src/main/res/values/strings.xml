@@ -26,4 +26,5 @@
     <string name="thunderstorm_with_rain">Thunderstorm with rain</string>
     <string name="thunderstorm_with_hail">Thunderstorm with hail</string>
     <string name="error">"ERROR: "</string>
+    <string name="menu_title_history">history</string>
 </resources>
