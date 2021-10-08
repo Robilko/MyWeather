@@ -1,6 +1,7 @@
 package com.robivan.myweather.view.contentProvider
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
@@ -10,6 +11,8 @@ import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -66,6 +69,7 @@ class ContentProviderFragment : Fragment() {
         }
     }
 
+    @SuppressLint("Range")
     private fun getContacts() {
         context?.let {
             // Получаем ContentResolver у контекста
@@ -97,8 +101,8 @@ class ContentProviderFragment : Fragment() {
         binding.containerForContacts.addView(AppCompatTextView(context).apply {
             text = textToShow
             textSize = resources.getDimension(R.dimen.main_container_text_size)
-        })
 
+        })
     }
 
     private fun requestPermission() {

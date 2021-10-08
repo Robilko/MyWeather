@@ -30,7 +30,7 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        historyFragmentRecyclerview.adapter = adapter
+        history_fragment_recycler_view.adapter = adapter
         viewModel.historyLiveData.observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getAllHistory()
     }
@@ -38,18 +38,18 @@ class HistoryFragment : Fragment() {
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                historyFragmentRecyclerview.visibility = View.VISIBLE
+                history_fragment_recycler_view.visibility = View.VISIBLE
                 binding.includedLoadingLayout.loadingLayout.visibility = View.GONE
                 adapter.setData(appState.weatherData)
             }
             is AppState.Loading -> {
-                historyFragmentRecyclerview.visibility = View.GONE
+                history_fragment_recycler_view.visibility = View.GONE
                 binding.includedLoadingLayout.loadingLayout.visibility = View.VISIBLE
             }
             is AppState.Error -> {
-                historyFragmentRecyclerview.visibility = View.VISIBLE
+                history_fragment_recycler_view.visibility = View.VISIBLE
                 binding.includedLoadingLayout.loadingLayout.visibility = View.GONE
-                historyFragmentRecyclerview.showSnackBar(
+                history_fragment_recycler_view.showSnackBar(
                     getString(R.string.error),
                     getString(R.string.reload),
                     { viewModel.getAllHistory() })

@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fragment_background"
-    tools:context=".view.ContentProviderFragment">
+    tools:context=".view.contentProvider.ContentProviderFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/containerForContacts"
+        android:id="@+id/container_for_contacts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
