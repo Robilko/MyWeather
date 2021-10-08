@@ -3,6 +3,7 @@
     package="com.robivan.myweather">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name="com.robivan.myweather.model.MyWeather"
@@ -15,10 +16,10 @@
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".model.DetailsService"/>
     </application>
 
 </manifest>

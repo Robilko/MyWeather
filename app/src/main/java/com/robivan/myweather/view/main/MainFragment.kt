@@ -53,8 +53,10 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mainFragmentRecyclerView.adapter = adapter
         mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
-        viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
-        viewModel.getWeatherFromLocalSourceRus()
+        with(viewModel) {
+            getLiveData().observe(viewLifecycleOwner, { renderData(it) })
+            getWeatherFromLocalSourceRus()
+        }
     }
 
     private fun changeWeatherDataSet() =
