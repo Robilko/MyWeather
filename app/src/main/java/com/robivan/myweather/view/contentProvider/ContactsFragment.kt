@@ -55,7 +55,8 @@ class ContentProviderFragment : Fragment() {
                 }
                 //Опционально: если нужно пояснение перед запросом разрешений
                 shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
-                    AlertDialog.Builder(it).setTitle("Доступ к кконтактам")
+                    AlertDialog.Builder(it)
+                        .setTitle("Доступ к контактам")
                         .setMessage("Объяснение")
                         .setPositiveButton("Предоставить доступ") { _, _ -> requestPermission() }
                         .setNegativeButton("Не надо") { dialog, _ -> dialog.dismiss() }
