@@ -3,7 +3,6 @@ package com.robivan.myweather.view.contentProvider
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentResolver
-import android.content.Context
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Bundle
@@ -11,34 +10,36 @@ import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.robivan.myweather.R
-import com.robivan.myweather.databinding.FragmentContentProviderBinding
+import com.robivan.myweather.databinding.FragmentContactsBinding
+import kotlinx.android.synthetic.main.fragment_contacts.*
 
 const val REQUEST_CODE = 42
 
 class ContentProviderFragment : Fragment() {
 
-    private var _binding: FragmentContentProviderBinding? = null
+    private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var adapter: ContactsAdapter
+    private var dataContacts: MutableList<List<String?>> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentContentProviderBinding.inflate(inflater, container, false)
+        _binding = FragmentContactsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkPermission()
+        adapter = ContactsAdapter(dataContacts)
+        contacts_fragment_recycler_view.adapter = adapter
+
     }
 
     // Проверяем, разрешено ли чтение контактов
@@ -83,26 +84,39 @@ class ContentProviderFragment : Fragment() {
                 ContactsContract.Contacts.DISPLAY_NAME + " ASC"
             )
 
-            cursorWithContacts?.let { cursor ->
-                for (i in 0..cursor.count) {
+            cursorWithContacts?.let { cursorContacts ->
+                for (i in 0..cursorContacts.count) {
                     // Переходим на позицию в Cursor
-                    if (cursor.moveToPosition(i)) {
+                    if (cursorContacts.moveToPosition(i)) {
                         // Берём из Cursor столбец с именем
-                        val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                        addView(it, name)
+                        val name =
+                            cursorContacts.getString(cursorContacts.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                        val id =
+                            cursorContacts.getString(cursorContacts.getColumnIndex(ContactsContract.Contacts.NAME_RAW_CONTACT_ID))
+                        var phoneNumber: String? = null
+                        val cursorWithPhones: Cursor? = contentResolver.query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID + " = " + id,
+                            null,
+                            null
+                        )
+                        cursorWithPhones?.let { cursorPhones ->
+                            for (j in 0..cursorPhones.count) {
+                                if (cursorPhones.moveToPosition(j)) {
+                                    phoneNumber = cursorPhones.getString(
+                                        cursorPhones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                                    )
+                                }
+                            }
+                        }
+                        cursorWithPhones?.close()
+                        phoneNumber?.let { dataContacts.add(listOf(name, phoneNumber)) }
                     }
                 }
             }
             cursorWithContacts?.close()
         }
-    }
-
-    private fun addView(context: Context, textToShow: String) {
-        binding.containerForContacts.addView(AppCompatTextView(context).apply {
-            text = textToShow
-            textSize = resources.getDimension(R.dimen.main_container_text_size)
-
-        })
     }
 
     private fun requestPermission() {

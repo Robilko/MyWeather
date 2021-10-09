@@ -39,7 +39,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolde
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(data: Weather) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
-                itemView.recycler_view_item_text.text = String.format(
+                itemView.history_recycler_view_item_text.text = String.format(
                     "%s \n%s %s \n%s",
                     data.city.cityName,
                     data.temperature.let { if (it > 0) "+$it°" else "$it°" },

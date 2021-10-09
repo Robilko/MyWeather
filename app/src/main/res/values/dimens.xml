@@ -19,4 +19,6 @@
     <dimen name="hairline">1dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="main_container_text_size">15dp</dimen>
+    <dimen name="recycler_contact_name_text_size">25dp</dimen>
+    <dimen name="recycler_contact_number_text_size">20dp</dimen>
 </resources>
