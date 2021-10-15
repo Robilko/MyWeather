@@ -13,12 +13,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.robivan.myweather.R
 import com.robivan.myweather.databinding.FragmentContactsBinding
 import kotlinx.android.synthetic.main.fragment_contacts.*
 
 const val REQUEST_CODE = 42
 
-class ContentProviderFragment : Fragment() {
+class ContactsFragment : Fragment() {
 
     private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
@@ -56,10 +57,10 @@ class ContentProviderFragment : Fragment() {
                 //Опционально: если нужно пояснение перед запросом разрешений
                 shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
                     AlertDialog.Builder(it)
-                        .setTitle("Доступ к контактам")
-                        .setMessage("Объяснение")
-                        .setPositiveButton("Предоставить доступ") { _, _ -> requestPermission() }
-                        .setNegativeButton("Не надо") { dialog, _ -> dialog.dismiss() }
+                        .setTitle(getString(R.string.access_to_contacts))
+                        .setMessage(getString(R.string.explanation_of_access_needed))
+                        .setPositiveButton(getString(R.string.dialog_give_access)) { _, _ -> requestPermission() }
+                        .setNegativeButton(getString(R.string.dialog_decline_access)) { dialog, _ -> dialog.dismiss() }
                         .create()
                         .show()
                 }
@@ -139,9 +140,9 @@ class ContentProviderFragment : Fragment() {
                     // Поясните пользователю, что экран останется пустым, потому что доступ к контактам не предоставлен
                     context?.let {
                         AlertDialog.Builder(it)
-                            .setTitle("Доступ к контактам")
-                            .setMessage("Объяснение")
-                            .setNegativeButton("Закрыть") { dialog, _ ->
+                            .setTitle(getString(R.string.access_to_contacts))
+                            .setMessage(getString(R.string.explanation_of_access_denied))
+                            .setNegativeButton(getString(R.string.dialog_button_close)) { dialog, _ ->
                                 dialog.dismiss()
                             }
                             .create()
@@ -160,6 +161,6 @@ class ContentProviderFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = ContentProviderFragment()
+        fun newInstance() = ContactsFragment()
     }
 }

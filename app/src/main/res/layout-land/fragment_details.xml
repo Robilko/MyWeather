@@ -28,6 +28,8 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/city_text_size"
             android:textStyle="bold"
+            android:gravity="center"
+            android:maxLines="2"
             app:layout_constraintBottom_toTopOf="@+id/weather_condition"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

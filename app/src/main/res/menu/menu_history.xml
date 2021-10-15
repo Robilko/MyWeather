@@ -3,14 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_content_provider"
+        android:id="@+id/menu_contacts"
         android:icon="@drawable/ic_contacts"
         android:title="@string/content_provider"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_history"
-        android:title="@string/menu_title_history"
         android:icon="@drawable/ic_history"
-        app:showAsAction="always"/>
+        android:title="@string/menu_title_history"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_location"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="@string/menu_title_location"
+        app:showAsAction="always" />
 </menu>
