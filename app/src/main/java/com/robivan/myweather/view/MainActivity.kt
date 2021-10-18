@@ -24,6 +24,7 @@ import com.robivan.myweather.model.Weather
 import com.robivan.myweather.view.contentProvider.ContactsFragment
 import com.robivan.myweather.view.contentProvider.REQUEST_CODE
 import com.robivan.myweather.view.details.DetailsFragment
+import com.robivan.myweather.view.googlemaps.GoogleMapsFragment
 import com.robivan.myweather.view.history.HistoryFragment
 import com.robivan.myweather.view.main.MainFragment
 import java.io.IOException
@@ -110,6 +111,15 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.menu_location -> {
                 permissionGeoResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                true
+            }
+            R.id.menu_maps -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .add(binding.container.id, GoogleMapsFragment())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

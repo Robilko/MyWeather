@@ -44,4 +44,8 @@
     <string name="dialog_address_title">Your address</string>
     <string name="dialog_address_get_weather">Find out the weather</string>
     <string name="menu_title_location">My location</string>
+    <string name="menu_title_maps">Google map</string>
+    <string name="default_address">Red Square, 1, Moscow</string>
+    <string name="button_search_map">Search</string>
+    <string name="marker_start">Start</string>
 </resources>
