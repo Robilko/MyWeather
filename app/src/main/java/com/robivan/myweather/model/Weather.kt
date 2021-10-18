@@ -2,6 +2,7 @@ package com.robivan.myweather.model
 
 import android.os.Parcelable
 import com.robivan.myweather.R
+import com.robivan.myweather.utils.getCurrentTime
 import kotlinx.android.parcel.Parcelize
 import kotlin.random.Random
 
@@ -11,11 +12,12 @@ data class Weather(
     val temperature: Int = Random.nextInt(-35, 35),
     val feelsLike: Int = temperature - Random.nextInt(0, 5),
     val condition: String = "sunny",
-    val icon: String? = "bkn_n"
+    val icon: String = "bkn_n",
+    val timestamp: String = getCurrentTime()
 ) : Parcelable
 
 fun getDefaultCity() = City(
-    MyWeather.appContext!!.resources.getString(R.string.default_city),
+    App.appContext!!.resources.getString(R.string.default_city),
     55.755826,
     37.617299900000035
 )

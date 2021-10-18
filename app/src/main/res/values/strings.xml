@@ -26,4 +26,26 @@
     <string name="thunderstorm_with_rain">Thunderstorm with rain</string>
     <string name="thunderstorm_with_hail">Thunderstorm with hail</string>
     <string name="error">"ERROR: "</string>
+    <string name="menu_title_history">History</string>
+    <string name="content_provider">Contacts</string>
+    <string name="dialog_button_close">Close</string>
+    <string name="access_to_contacts">Access to contacts</string>
+    <string name="explanation_of_access_denied">You have denied access the application to your contacts , so the next screen will be blank.</string>
+    <string name="explanation_of_access_needed">The application is a training project, so access to contacts is needed solely for educational purposes.</string>
+    <string name="dialog_decline_access">Do not</string>
+    <string name="dialog_give_access">Allow access</string>
+    <string name="dialog_title_no_gps">Access to geolocation is closed</string>
+    <string name="dialog_message_no_gps">Allow access to geolocation if you want to know the weather of the current location</string>
+    <string name="dialog_title_gps_turned_off">GPS disabled</string>
+    <string name="dialog_message_last_location_unknown">Your location are unknown. Turn on GPS if you want to get the weather at the current address</string>
+    <string name="dialog_message_last_known_location">The last known location is shown. Turn on GPS if you want to update your location</string>
+    <string name="dialog_rationale_title">Access to geolocation</string>
+    <string name="dialog_rationale_message">Explanation</string>
+    <string name="dialog_address_title">Your address</string>
+    <string name="dialog_address_get_weather">Find out the weather</string>
+    <string name="menu_title_location">My location</string>
+    <string name="menu_title_maps">Google map</string>
+    <string name="default_address">Red Square, 1, Moscow</string>
+    <string name="button_search_map">Search</string>
+    <string name="marker_start">Start</string>
 </resources>
