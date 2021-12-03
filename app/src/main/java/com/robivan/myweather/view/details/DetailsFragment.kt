@@ -11,6 +11,7 @@ import coil.api.load
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.robivan.myweather.R
 import com.robivan.myweather.databinding.FragmentDetailsBinding
+import com.robivan.myweather.model.City
 import com.robivan.myweather.model.Weather
 import com.robivan.myweather.utils.showSnackBar
 import com.robivan.myweather.viewmodel.AppState
@@ -44,16 +45,16 @@ class DetailsFragment : Fragment() {
             when (appState) {
                 is AppState.Success -> {
                     mainView.visibility = View.VISIBLE
-                    loadingLayout.visibility = View.GONE
+                    binding.includedLoadingLayout.loadingLayout.visibility = View.GONE
                     setWeather(appState.weatherData[0])
                 }
                 is AppState.Loading -> {
                     mainView.visibility = View.GONE
-                    loadingLayout.visibility = View.VISIBLE
+                    binding.includedLoadingLayout.loadingLayout.visibility = View.VISIBLE
                 }
                 is AppState.Error -> {
                     mainView.visibility = View.VISIBLE
-                    loadingLayout.visibility = View.GONE
+                    binding.includedLoadingLayout.loadingLayout.visibility = View.GONE
                     mainView.showSnackBar(
                         getString(R.string.error),
                         getString(R.string.reload),
@@ -68,6 +69,7 @@ class DetailsFragment : Fragment() {
 
     private fun setWeather(weather: Weather) {
         val city = weatherBundle.city
+        saveCity(city, weather)
         with(binding) {
             cityName.text = city.cityName
             cityCoordinates.text = String.format(
@@ -81,14 +83,20 @@ class DetailsFragment : Fragment() {
                 weather.feelsLike.toString().let { if (it.toInt() > 0) "+$it°" else "$it°" }
             weatherCondition.text = weather.condition
             headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
-            weather.icon?.let { GlideToVectorYou.justLoadImage(activity, Uri.parse("https://yastatic.net/weather/i/icons/blueye/color/svg/${it}.svg"), icon) }
+            weather.icon.let { GlideToVectorYou.justLoadImage(activity, Uri.parse("https://yastatic.net/weather/i/icons/blueye/color/svg/${it}.svg"), icon) }
         }
+    }
+
+    private fun saveCity(city: City, weather: Weather) {
+        viewModel.saveCityToDB(Weather(city, weather.temperature, weather.feelsLike, weather.condition, weather.timestamp))
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
 
     companion object {
         const val BUNDLE_EXTRA = "weather"

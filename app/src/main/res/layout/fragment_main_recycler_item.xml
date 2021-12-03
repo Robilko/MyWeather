@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/itemContainer"
+    android:id="@+id/main_fragment_item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/mainFragmentRecyclerItemTextView"
+        android:id="@+id/main_fragment_recycler_item_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/recycler_item_padding"
@@ -16,25 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Москва" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/mainFragmentRecyclerItemTemperatureTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/recycler_item_padding"
-        android:textSize="@dimen/recycler_item_text_size"
-        app:layout_constraintEnd_toStartOf="@+id/mainFragmentRecyclerItemImageView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="-17" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/mainFragmentRecyclerItemImageView"
-        android:layout_width="@dimen/recycler_item_precipitation_image_size"
-        android:layout_height="@dimen/recycler_item_precipitation_image_size"
-        android:layout_margin="@dimen/recycler_item_precipitation_image_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/sunny" />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/recycler_item_line_height"
@@ -42,6 +23,6 @@
         android:background="@color/teal_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainFragmentRecyclerItemTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/main_fragment_recycler_item_text_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
