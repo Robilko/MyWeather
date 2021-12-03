@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "569954547317",
+    "project_id": "myweather-8547a",
+    "storage_bucket": "myweather-8547a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569954547317:android:7ced6ca59b3a665d0b6a3c",
+        "android_client_info": {
+          "package_name": "com.robivan.myweather"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569954547317-c95i2hspgq6s2b7vdjrkpbejj2qpfq80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.robivan.myweather",
+            "certificate_hash": "e6946d139d2b7a0f040abfe583d075d10490b361"
+          }
+        },
+        {
+          "client_id": "569954547317-clue4ao2f3g95mcvv5fheugmk2v4k15v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAvK3fk1FYQUXiuBoqWZfJHTUZiGND2DE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569954547317-clue4ao2f3g95mcvv5fheugmk2v4k15v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
